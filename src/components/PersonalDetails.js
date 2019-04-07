@@ -3,8 +3,31 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import AppBar from 'material-ui/AppBar'
 import TextField from 'material-ui/TextField'
 import RaisedButton from 'material-ui/RaisedButton'
+import MaskedInput from 'react-text-mask';
+import MenuItem from '@material-ui/core/MenuItem';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import Select from '@material-ui/core/Select';
+import FormControl from '@material-ui/core/FormControl';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormLabel from '@material-ui/core/FormLabel';
+
+const genders = [
+    {
+      value: 'male',
+      label: 'male',
+    },
+   
+    {
+      value: 'female',
+      label: 'female',
+    },
+  ];
 
 export class PersonalDetails extends Component {
+   state={gender: 'male'}
     continue = e => {
         e.preventDefault();
         this.props.nextStep();
@@ -13,41 +36,80 @@ export class PersonalDetails extends Component {
         e.preventDefault();
         this.props.prevStep();
     }
+   
+   
 
   render() {
-      const { values, handleChange} = this.props;
+      const { values, handleChange, male, female, classes} = this.props;
+    
 
     return (
       <MuiThemeProvider>
+          
           <React.Fragment>
-              <AppBar title="Enter personal details "/>
+              <AppBar title="Step 2: Enter personal details "/>
+              <br/>
+            <MaskedInput
+                  mask={['+', '1', ' ', '(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
+                  placeholder="Enter a phone number"
+                  guide={false}
+                  defaultValue={values.phoneNumber}
+                  onChange={handleChange('phoneNumber')}
+              />
+            <br/>
               <TextField
               hintText="Enter address"
-              floatingLabelText="address"
+              floatingLabelText="Address"
               onChange={handleChange('address')}
               defaultValue={values.address}
               />
               <br/>
               <TextField
-              hintText="Enter Date of birth"
-              floatingLabelText="Date of Birth"
-              onChange={handleChange('dateOfBirth')}
+              type="date"
+              defaultValue="05-24-2019"
+                onChange={handleChange('dateOfBirth')}
               defaultValue={values.dateOfBirth}
+              InputLabelProps={{
+                shrink: true,
+              }}
               />
               <br/>
-              <TextField
-              hintText="Enter phone number"
-              floatingLabelText="Phone number"
-              onChange={handleChange('phoneNumber')}
-              defaultValue={values.phoneNumber}
-              />
-              <br/>
-               <TextField
-              hintText="Enter gender"
-              floatingLabelText="gender"
-              onChange={handleChange('gender')}
-              defaultValue={values.gender}
-              /><br/>
+              {/* <TextField
+                id="gender"
+                select
+                label="Select"
+                defaultValue={values.gender}
+                onChange={handleChange('gender')}
+                SelectProps={{
+                    // MenuProps: {
+                    //   //className: classes.menu,
+                    // },
+                }}
+                helperText="Please select your gender"
+                >
+                {genders.map(option => (
+                    <MenuItem key={option.value} value={option.value}>
+                    {option.label}
+                    </MenuItem>
+                 ))}
+         </TextField> */}
+         
+              <FormControl component="fieldset" >
+        <FormLabel component="legend">Gender</FormLabel>
+        <FormGroup>
+            
+          <FormControlLabel
+            control={<Checkbox checked={male} onChange={handleChange('gender')} defaultValue="values.gender" />}
+            label="Male"
+          />
+          <FormControlLabel
+            control={<Checkbox checked={female} onChange={handleChange('gender')} defaultValue="values.gender" />}
+            label="Female"
+          />
+          </FormGroup>
+          </FormControl>
+          <br/>
+            
               <RaisedButton
               label="Back"
               primary={false}
@@ -70,9 +132,15 @@ export class PersonalDetails extends Component {
 const styles ={
     button:{
         margin:15
-    }
+    },
+    menu: {
+        width: 200,
+      },
 
 
 }
+// PersonalDetails.propTypes = {
+//     classes: PropTypes.object.isRequired,
+//   };
 
 export default PersonalDetails

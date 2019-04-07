@@ -20,22 +20,22 @@ export class PaymentPlanDetails extends Component {
 
   render() {
       const { values, handleChange, classes, monthly, yearly} = this.props;
-     // const {monthly, yearly} = this.state
+    
 
     return (
       <MuiThemeProvider>
           <React.Fragment>
-              <AppBar title=" payment plan details"/>
+              <AppBar title=" Step 3: Payment plan details"/>
               <FormControl component="fieldset" >
         <FormLabel component="legend">Payment Plan</FormLabel>
         <FormGroup>
             
           <FormControlLabel
-            control={<Checkbox checked={monthly} onChange={handleChange('paymentPlan')} value="values.paymentPlan" />}
+            control={<Checkbox checked={monthly} onChange={handleChange('paymentPlan')} defaultValue="values.paymentPlan" />}
             label="Monthly"
           />
           <FormControlLabel
-            control={<Checkbox checked={yearly} onChange={handleChange('paymentPlan')} value="values.paymentPlan" />}
+            control={<Checkbox checked={yearly} onChange={handleChange('paymentPlan')} defaultValue="values.paymentPlan" />}
             label="Yearly"
           />
           </FormGroup>
@@ -50,7 +50,7 @@ export class PaymentPlanDetails extends Component {
 
               />
               <RaisedButton
-              label="Submit"
+              label="Next"
               primary={true}
               style={styles.button}
               onClick={this.continue}
